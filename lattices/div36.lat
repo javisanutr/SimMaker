@@ -1,0 +1,54 @@
+members([1,2,3,4,6,9,12,18,36]).
+
+member(1).
+member(2).
+member(3).
+member(4).
+member(6).
+member(9).
+member(12).
+member(18).
+member(36).
+
+top(36).
+bot(1).
+
+arc(1, 2).
+arc(1, 3).
+arc(2, 4).
+arc(2, 6).
+arc(3, 6).
+arc(3, 9).
+arc(4, 12).
+arc(6, 12).
+arc(6, 18).
+arc(9, 18).
+arc(12, 36).
+arc(18, 36).
+
+level(1, 0).
+level(2, 1).
+level(3, 1).
+level(4, 2).
+level(6, 2).
+level(9, 2).
+level(12, 3).
+level(18, 3).
+level(36, 4).
+
+leq(X,X).
+leq(X,Y):-arc(X,Z),leq(Z,Y).
+
+distance(X,Y,Z):-level(X,L1),level(Y,L2),Z is abs(L1-L2).
+
+agr_im_godel(X,Y,36):-leq(Y,X),!.
+agr_im_godel(X,_G174,X).
+and_godel(X,Y,Z) :- pri_inf(X,Y,Z).
+
+extract([X|_G1958],X).
+extract([_G1957|T],X):-extract(T,X).
+is_max(X,L):-forall(member(Y,L),leq(Y,X)).
+max_infimum_list(L,Max):-setof(X, (extract(L,X),is_max(X,L)),Max).
+list_inf(X,X,[]).
+list_inf(X,Y,L):-members(M),setof(E, (extract(M,E),leq(E,X),leq(E,Y)),L).
+pri_inf(X,Y,I):-list_inf(X,Y,L),max_infimum_list(L,[I]).

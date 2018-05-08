@@ -1,0 +1,36 @@
+members([a,b,c,d,e,f]).
+member(a).
+member(b).
+member(c).
+member(d).
+member(e).
+member(f).
+top(f).
+bot(a).
+arc(a, b).
+arc(a, c).
+arc(b, d).
+arc(b, e).
+arc(c, d).
+arc(c, e).
+arc(d, f).
+arc(e, f).
+level(a, 0).
+level(b, 1).
+level(c, 1).
+level(d, 2).
+level(e, 2).
+level(f, 3).
+leq(X,X).
+leq(X,Y):-arc(X,Z),leq(Z,Y).
+distance(X,Y,Z):-level(X,L1),level(Y,L2),Z is abs(L1-L2).
+and_godel(X,Y,Z):-pri_inf(X,Y,Z).
+extract([X|_G2615],X).
+extract([_G2614|T],X):-extract(T,X).
+is_max(X,L):-forall(member(Y,L),leq(Y,X)).
+max_infimum_list(L,Max):-setof(X, (extract(L,X),is_max(X,L)),Max).
+list_inf(X,X,[]).
+list_inf(X,Y,L):-members(M),setof(E, (extract(M,E),leq(E,X),leq(E,Y)),L).
+pri_inf(X,Y,I):-list_inf(X,Y,L),max_infimum_list(L,[I]).
+agr_im_godel(X,Y,f):-leq(Y,X),!.
+agr_im_godel(X,_G2615,X).

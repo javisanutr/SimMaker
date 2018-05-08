@@ -1,0 +1,83 @@
+members([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]).
+
+%member(0).
+%member(0.1).
+%member(0.2).
+%member(0.3).
+%member(0.4).
+%member(0.5).
+%member(0.6).
+%member(0.7).
+%member(0.8).
+%member(0.9).
+%member(1).
+member(X) :- number(X), 0 =< X, X =< 1.
+
+top(1).
+bot(0).
+
+arc(0, 0.1).
+arc(0.1, 0.2).
+arc(0.2, 0.3).
+arc(0.3, 0.4).
+arc(0.4, 0.5).
+arc(0.5, 0.6).
+arc(0.6, 0.7).
+arc(0.7, 0.8).
+arc(0.8, 0.9).
+arc(0.9, 1).
+
+level(0, 0).
+level(0.1, 1).
+level(0.2, 2).
+level(0.3, 3).
+level(0.4, 4).
+level(0.5, 5).
+level(0.6, 6).
+level(0.7, 7).
+level(0.8, 8).
+level(0.9, 9).
+level(1, 10).
+
+distance(X,Y,Z):-level(X,L1), level(Y,L2), Z is abs(L1 - L2).
+
+leq(X,Y):-X=<Y.
+
+round(X,Y):-Y is round(X*10^6)/10^6.
+
+and_prod(X,Y,Z):-pri_prod(X,Y,Z).
+and_godel(X,Y,Z):-pri_inf(X,Y,Z).
+and_luka(X,Y,Z):-pri_add(X,Y,U1),pri_sub(U1,1,U2),pri_max(U2,0,Z).
+or_prod(X,Y,Z):-pri_prod(X,Y,U1),pri_add(X,Y,U2),pri_sub(U2,U1,Z).
+or_godel(X,Y,Z):-pri_max(X,Y,Z).
+or_luka(X,Y,Z):-pri_add(X,Y,U1),pri_min(U1,1,Z).
+agr_aver(X,Y,Z):-pri_add(X,Y,U1),pri_div(U1,2,Z).
+
+pri_prod(X,Y,Z):-A is X*Y,round(A,Z).
+pri_div(X,Y,Z):-A is X/Y,round(A,Z).
+pri_sub(X,Y,Z):-A is X-Y,round(A,Z).
+pri_add(X,Y,Z):-A is X+Y,round(A,Z).
+pri_min(X,Y,Z):-X=<Y,Z=X;X>Y,Z=Y.
+pri_max(X,Y,Z):-X=<Y,Z=Y;X>Y,Z=X.
+
+extract([X|_G1958],X).
+extract([_G1957|T],X):-extract(T,X).
+is_max(X,L):-forall(member(Y,L),leq(Y,X)).
+max_infimum_list(L,Max):-setof(X, (extract(L,X),is_max(X,L)),Max).
+list_inf(X,X,[]).
+list_inf(X,Y,L):-members(M),setof(E, (extract(M,E),leq(E,X),leq(E,Y)),L).
+pri_inf(X,Y,I):-list_inf(X,Y,L),max_infimum_list(L,[I]).
+
+abs(X,X):-X>0,!.
+abs(X,Y):-Y is 0-X.
+
+agr_im_godel(X,Y,1):-leq(Y,X),!.
+agr_im_godel(X,_G1958,X).
+agr_t_zadeh(X,Y,X):-leq(X,Y),!.
+agr_t_zadeh(_G1957,Y,Y).
+agr_s_zadeh(X,Y,X):-leq(Y,X),!.
+agr_s_zadeh(_G1957,Y,Y).
+agr_t_luka(X,Y,Z):-pri_add(X,Y,V),pri_sub(V,1,Z),leq(0,Z),!.
+agr_t_luka(_G1957,_G1958,0).
+agr_s_luka(X,Y,Z):-pri_add(X,Y,Z),leq(Z,1),!.
+agr_s_luka(_G1957,_G1958,1).

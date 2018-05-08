@@ -1,0 +1,28 @@
+members([bottom,alpha,beta,top]).
+member(alpha).
+member(beta).
+member(bottom).
+member(top).
+top(top).
+bot(bottom).
+arc(alpha, top).
+arc(beta, top).
+arc(bottom, alpha).
+arc(bottom, beta).
+level(alpha, 1).
+level(beta, 1).
+level(bottom, 0).
+level(top, 2).
+leq(bottom,X).
+leq(X,X).
+leq(X,top).
+distance(X,Y,Z):-level(X,L1),level(Y,L2),Z is e.
+and_godel(X,Y,Z):-pri_inf(X,Y,Z).
+pri_inf(bottom,X,bottom):-!.
+pri_inf(alpha,X,alpha):-leq(alpha,X),!.
+pri_inf(beta,X,beta):-leq(beta,X),!.
+pri_inf(top,X,X):-!.
+pri_inf(X,Y,bottom).
+and_gines(bottom,X,bottom).
+and_gines(_G2413,_G2414,top).
+and_useless(_G2413,omega,delta).

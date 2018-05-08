@@ -1,0 +1,61 @@
+members([a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p]).
+member(a).
+member(b).
+member(c).
+member(d).
+member(e).
+member(f).
+member(g).
+member(h).
+member(i).
+member(j).
+member(k).
+member(l).
+member(m).
+member(n).
+member(o).
+member(p).
+top(c).
+bot(a).
+arc(a, b).
+arc(a, h).
+arc(a, l).
+arc(a, n).
+arc(b, d).
+arc(b, f).
+arc(d, e).
+arc(d, k).
+arc(e, i).
+arc(f, e).
+arc(g, e).
+arc(g, j).
+arc(h, f).
+arc(h, g).
+arc(i, c).
+arc(j, i).
+arc(k, i).
+arc(l, m).
+arc(l, p).
+arc(m, o).
+arc(n, m).
+arc(o, c).
+arc(p, o).
+level(a, 0).
+level(b, 1).
+level(c, 5).
+level(d, 2).
+level(e, 3).
+level(f, 2).
+level(g, 2).
+level(h, 1).
+level(i, 4).
+level(j, 3).
+level(k, 3).
+level(l, 1).
+level(m, 2).
+level(n, 1).
+level(o, 3).
+level(p, 2).
+leq(X,X).
+leq(X,Y):-arc(X,Z),leq(Z,Y).
+distance(X,Y,Z):-level(X,L1),level(Y,L2),Z is abs(L1-L2).
